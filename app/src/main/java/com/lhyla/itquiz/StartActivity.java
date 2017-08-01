@@ -1,5 +1,7 @@
 package com.lhyla.itquiz;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -22,17 +24,23 @@ public class StartActivity extends AppCompatActivity {
     TextView answerATV;
 
     @BindView(R.id.act_start_answer_B_TV)
-    TextView getAnswerBTV;
+    TextView answerBTV;
 
     @BindView(R.id.act_start_answer_C_TV)
-    TextView getAnswerCTV;
+    TextView answerCTV;
 
     @BindView(R.id.act_start_answer_D_TV)
-    TextView getAnswerDTV;
+    TextView answerDTV;
 
     private List<Integer> drawnQuestion;
     private List<Question> questions;
-    private Question actualQuestion;
+
+    private int questionsAsked;
+    private int points;
+
+    private Question currentQuestion;
+    private Question lastQuestion;
+
     private static final String correctInfo = "Correct";
     private static final String incorrectInfo = "Incorrect";
 
@@ -42,38 +50,79 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
         drawnQuestion = new ArrayList<>();
-        questions = new ArrayList<>();
-        loadQuestion();
-    }
+        questions = createQuestion();
 
+        updateCurrentQuestion();
+        loadActualQuestion();
+        loadActualAnswers();
+
+    }
 
 
     private void oneOfAnswersOnClick(String answer) {
-        if (checkIsAnswerIsCorrect(actualQuestion, answer)) {
-            makeInfoToast(correctInfo);
+        UsefulMethods.printLOG("One of answers on Click");
+        if (checkIsAnswerIsCorrect(answer)) {
+            questionsAsked++;
+            points++;
+            makeInfoShortToast(correctInfo);
         } else {
-            makeInfoToast(incorrectInfo);
+            makeInfoShortToast(incorrectInfo);
+            questionsAsked++;
+        }
+        updateCurrentQuestion();
+        loadActualQuestion();
+        loadActualAnswers();
+    }
+
+    private boolean checkIsAnswerIsCorrect(String answer) {
+        return answer.equals(currentQuestion.getCorrectAnswer());
+    }
+
+    private void loadActualQuestion() {
+        questionTV.setText(currentQuestion.getQuestion());
+    }
+
+    private void loadActualAnswers() {
+        answerATV.setText(currentQuestion.getAnswerA());
+        answerBTV.setText(currentQuestion.getAnswerB());
+        answerCTV.setText(currentQuestion.getAnswerC());
+        answerDTV.setText(currentQuestion.getAnswerD());
+    }
+
+    private void updateCurrentQuestion() {
+        currentQuestion = drawQuestionWithoutRepeating();
+
+        if (currentQuestion == null) {
+            //When current question is null
+            //last question is the current question to save the view.
+            if (lastQuestion != null) {
+                currentQuestion = lastQuestion;
+                UsefulMethods.printLOG("End of questions");
+                Intent intent = new Intent(this, EndGameActivity.class);
+                intent.putExtra("AskedQuestions", questionsAsked);
+                intent.putExtra("Points", points);
+                startActivity(intent);
+            } else {
+                currentQuestion = new Question("Question", "A", "B", "C", "D", "A", -1);
+                UsefulMethods.printLOG("Default question");
+            }
+
+        } else {
+            //Last question is the currentQuestion when the current question is`t null.
+            lastQuestion = currentQuestion;
         }
     }
 
-
-
-    private boolean checkIsAnswerIsCorrect(Question question, String answer) {
-        return answer.equals(question.getCorrectAnswer());
-    }
-
-    private void loadQuestion() {
-        questions = createQuestion();
-        actualQuestion = drawQuestionWithoutRepeating();
-        questionTV.setText(actualQuestion.getQuestion());
-    }
-
-    public Question drawQuestionWithoutRepeating() {
+    @Nullable
+    private Question drawQuestionWithoutRepeating() {
         Random random = new Random();
         Integer numOfQuestion = random.nextInt(questions.size());
 
         while (drawnQuestion.contains(numOfQuestion)) {
             numOfQuestion = random.nextInt(questions.size());
+            if (drawnQuestion.size() == questions.size()) {
+                return null;
+            }
         }
         drawnQuestion.add(numOfQuestion);
 
@@ -84,42 +133,52 @@ public class StartActivity extends AppCompatActivity {
 
     private List<Question> createQuestion() {
         Question question1 =
-                new Question("What kind of variable you cannot create in Java?",
-                        "var", "int", "String", "char", "A", 0);
+                new Question("What kind of primitive variable type you cannot create in Java?",
+                        "var", "short", "byte", "char", "A", 1);
 
         Question question2 =
                 new Question("Who is the founder of Amazon?", "Steve Jobs",
-                        "Linus Torvalds", "Bill Gates", " Jeff Bezos", "D", 1);
+                        "Linus Torvalds", "Bill Gates", " Jeff Bezos", "D", 2);
+
+        Question question3 = new Question("Where Google has it`s main Headquarters",
+                "New York", "Los Angel", "Mountain View", "Chicago", "C", 3);
 
         List<Question> questions = new ArrayList<>();
         questions.add(question1);
         questions.add(question2);
+        questions.add(question3);
 
         return questions;
     }
 
     @OnClick(R.id.act_start_answer_A_TV)
     protected void answerAOnClick() {
+        UsefulMethods.printLOG("Answer A On Click");
         oneOfAnswersOnClick("A");
     }
 
     @OnClick(R.id.act_start_answer_B_TV)
     protected void answerBOnClick() {
+        UsefulMethods.printLOG("Answer B On Click");
         oneOfAnswersOnClick("B");
     }
 
     @OnClick(R.id.act_start_answer_C_TV)
     protected void answerCOnClick() {
+        UsefulMethods.printLOG("Answer C On Click");
         oneOfAnswersOnClick("C");
     }
 
     @OnClick(R.id.act_start_answer_D_TV)
     protected void answerDOnClick() {
+        UsefulMethods.printLOG("Answer D On Click");
         oneOfAnswersOnClick("D");
     }
 
-    private void makeInfoToast(String info) {
-        Toast toast = Toast.makeText(StartActivity.this, info, Toast.LENGTH_LONG);
+    private void makeInfoShortToast(String info) {
+        Toast toast = Toast.makeText(StartActivity.this, info, Toast.LENGTH_SHORT);
         toast.show();
     }
+
+
 }
