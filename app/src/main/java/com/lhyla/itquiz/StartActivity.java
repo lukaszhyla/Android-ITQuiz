@@ -81,6 +81,29 @@ public class StartActivity extends AppCompatActivity {
         UsefulMethods.printLOG("Start Activity onResume()");
     }
 
+    @OnClick(R.id.act_start_answer_A_TV)
+    protected void answerAOnClick() {
+        UsefulMethods.printLOG("Answer A On Click");
+        oneOfAnswersOnClick("A");
+    }
+
+    @OnClick(R.id.act_start_answer_B_TV)
+    protected void answerBOnClick() {
+        UsefulMethods.printLOG("Answer B On Click");
+        oneOfAnswersOnClick("B");
+    }
+
+    @OnClick(R.id.act_start_answer_C_TV)
+    protected void answerCOnClick() {
+        UsefulMethods.printLOG("Answer C On Click");
+        oneOfAnswersOnClick("C");
+    }
+
+    @OnClick(R.id.act_start_answer_D_TV)
+    protected void answerDOnClick() {
+        UsefulMethods.printLOG("Answer D On Click");
+        oneOfAnswersOnClick("D");
+    }
     private void resetScore() {
         UsefulMethods.printLOG("Reset Score");
         questionsAsked = 0;
@@ -127,6 +150,24 @@ public class StartActivity extends AppCompatActivity {
         return answer.equals(currentQuestion.getCorrectAnswer());
     }
 
+    @Nullable
+    private Question drawQuestionWithoutRepeating() {
+        Random random = new Random();
+        Integer numOfQuestion = random.nextInt(questions.size());
+
+        while (drawnQuestion.contains(numOfQuestion)) {
+            numOfQuestion = random.nextInt(questions.size());
+            if (drawnQuestion.size() == questions.size()) {
+                return null;
+            }
+        }
+        drawnQuestion.add(numOfQuestion);
+
+        UsefulMethods.printLOG("Drawn Questions " + drawnQuestion.toString());
+        UsefulMethods.printLOG("Num of Question " + numOfQuestion);
+        return questions.get(numOfQuestion);
+    }
+
     private void loadActualQuestion() {
         questionTV.setText(currentQuestion.getQuestion());
     }
@@ -162,24 +203,6 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
-    @Nullable
-    private Question drawQuestionWithoutRepeating() {
-        Random random = new Random();
-        Integer numOfQuestion = random.nextInt(questions.size());
-
-        while (drawnQuestion.contains(numOfQuestion)) {
-            numOfQuestion = random.nextInt(questions.size());
-            if (drawnQuestion.size() == questions.size()) {
-                return null;
-            }
-        }
-        drawnQuestion.add(numOfQuestion);
-
-        UsefulMethods.printLOG("Drawn Questions " + drawnQuestion.toString());
-        UsefulMethods.printLOG("Num of Question " + numOfQuestion);
-        return questions.get(numOfQuestion);
-    }
-
     private void createQuestion() {
         dbQuerries.addToBase("Where Google has it main Headquarters",
                 "New York", "Los Angel", "Mountain View", "Chicago", "C");
@@ -191,34 +214,8 @@ public class StartActivity extends AppCompatActivity {
                 "var", "short", "byte", "char", "A");
     }
 
-    @OnClick(R.id.act_start_answer_A_TV)
-    protected void answerAOnClick() {
-        UsefulMethods.printLOG("Answer A On Click");
-        oneOfAnswersOnClick("A");
-    }
-
-    @OnClick(R.id.act_start_answer_B_TV)
-    protected void answerBOnClick() {
-        UsefulMethods.printLOG("Answer B On Click");
-        oneOfAnswersOnClick("B");
-    }
-
-    @OnClick(R.id.act_start_answer_C_TV)
-    protected void answerCOnClick() {
-        UsefulMethods.printLOG("Answer C On Click");
-        oneOfAnswersOnClick("C");
-    }
-
-    @OnClick(R.id.act_start_answer_D_TV)
-    protected void answerDOnClick() {
-        UsefulMethods.printLOG("Answer D On Click");
-        oneOfAnswersOnClick("D");
-    }
-
     private void makeInfoShortToast(String info) {
         Toast toast = Toast.makeText(StartActivity.this, info, Toast.LENGTH_SHORT);
         toast.show();
     }
-
-
 }
