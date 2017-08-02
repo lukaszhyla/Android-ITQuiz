@@ -1,4 +1,4 @@
-package com.lhyla.itquiz;
+package com.lhyla.itquiz.useful_methods;
 
 import android.util.Log;
 import android.widget.Toast;

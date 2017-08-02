@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhyla.itquiz.data.DBQuerries;
+import com.lhyla.itquiz.data.Question;
+import com.lhyla.itquiz.useful_methods.UsefulMethods;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,6 +45,8 @@ public class StartActivity extends AppCompatActivity {
     private Question currentQuestion;
     private Question lastQuestion;
 
+    private DBQuerries dbQuerries;
+
     private static final String correctInfo = "Correct";
     private static final String incorrectInfo = "Incorrect";
 
@@ -49,15 +55,51 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
-        drawnQuestion = new ArrayList<>();
-        questions = createQuestion();
+        UsefulMethods.printLOG("Start Activity onCreate()");
+        dbQuerries = new DBQuerries(StartActivity.this);
+        dbQuerries.startDbWritable();
+        ifEmptyCreateQuestionList();
 
+        drawnQuestion = new ArrayList<>();
+        questions = dbQuerries.getQuestionList();
         updateCurrentQuestion();
         loadActualQuestion();
         loadActualAnswers();
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        UsefulMethods.printLOG("Start Activity onRestart()");
+        resetScore();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UsefulMethods.printLOG("Start Activity onResume()");
+    }
+
+    private void resetScore() {
+        UsefulMethods.printLOG("Reset Score");
+        questionsAsked = 0;
+        points = 0;
+        drawnQuestion = null;
+        currentQuestion = null;
+        questions = null;
+
+        dbQuerries = new DBQuerries(StartActivity.this);
+        dbQuerries.startDbWritable();
+        ifEmptyCreateQuestionList();
+
+        drawnQuestion = new ArrayList<>();
+        questions = dbQuerries.getQuestionList();
+
+        updateCurrentQuestion();
+        loadActualQuestion();
+        loadActualAnswers();
+    }
 
     private void oneOfAnswersOnClick(String answer) {
         UsefulMethods.printLOG("One of answers on Click");
@@ -72,6 +114,13 @@ public class StartActivity extends AppCompatActivity {
         updateCurrentQuestion();
         loadActualQuestion();
         loadActualAnswers();
+    }
+
+    private void ifEmptyCreateQuestionList() {
+        if (dbQuerries.getQuestionList().isEmpty()) {
+            UsefulMethods.printLOG("Question list is empty, create new");
+            createQuestion();
+        }
     }
 
     private boolean checkIsAnswerIsCorrect(String answer) {
@@ -131,24 +180,15 @@ public class StartActivity extends AppCompatActivity {
         return questions.get(numOfQuestion);
     }
 
-    private List<Question> createQuestion() {
-        Question question1 =
-                new Question("What kind of primitive variable type you cannot create in Java?",
-                        "var", "short", "byte", "char", "A", 1);
+    private void createQuestion() {
+        dbQuerries.addToBase("Where Google has it main Headquarters",
+                "New York", "Los Angel", "Mountain View", "Chicago", "C");
 
-        Question question2 =
-                new Question("Who is the founder of Amazon?", "Steve Jobs",
-                        "Linus Torvalds", "Bill Gates", " Jeff Bezos", "D", 2);
+        dbQuerries.addToBase("Who is the founder of Amazon?", "Steve Jobs",
+                "Linus Torvalds", "Bill Gates", " Jeff Bezos", "D");
 
-        Question question3 = new Question("Where Google has it`s main Headquarters",
-                "New York", "Los Angel", "Mountain View", "Chicago", "C", 3);
-
-        List<Question> questions = new ArrayList<>();
-        questions.add(question1);
-        questions.add(question2);
-        questions.add(question3);
-
-        return questions;
+        dbQuerries.addToBase("What kind of primitive variable type you cannot create in Java?",
+                "var", "short", "byte", "char", "A");
     }
 
     @OnClick(R.id.act_start_answer_A_TV)

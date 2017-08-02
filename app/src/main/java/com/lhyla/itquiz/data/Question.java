@@ -1,4 +1,4 @@
-package com.lhyla.itquiz;
+package com.lhyla.itquiz.data;
 
 /**
  * Created by RENT on 2017-07-31.
