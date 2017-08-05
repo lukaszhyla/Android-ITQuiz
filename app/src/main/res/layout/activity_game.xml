@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1.0"
+    tools:context="com.lhyla.itquiz.GameActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <TextView
+                android:id="@+id/act_game_time_counter_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="Time left: 10 sec."
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/act_game_points_to_gain_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Points to gain: "
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:background="@color/colorAccent"/>
+
+            <TextView
+                android:id="@+id/act_game_actual_sum_of_points_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sum of points: 0"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:background="@color/colorAccent"/>
+
+
+            <TextView
+                android:id="@+id/act_game_quest_TV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@color/colorAccent"
+                android:gravity="center_vertical"
+                android:text="Question"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+
+        <TextView
+            android:id="@+id/act_game_answer_A_TV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:text="Answer A"
+            android:textAlignment="center"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/act_game_answer_B_TV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:text="Answer B"
+            android:textAlignment="center"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+
+        <TextView
+            android:id="@+id/act_game_answer_C_TV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:text="Answer C"
+            android:textAlignment="center"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/act_game_answer_D_TV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:text="Answer D"
+            android:textAlignment="center"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -34,8 +34,8 @@ public class EndGameActivity extends AppCompatActivity {
         pointsTV.setText(String.valueOf(points));
         askedQuestionsTV.setText(String.valueOf(askedQuestions));
 
-        UsefulMethods.printLOG("Asked Questions: " + askedQuestions);
-        UsefulMethods.printLOG("Points: " + points);
+        UsefulMethods.printLOG("EndGameActivity onCreate() askedQuestions =  " + askedQuestions);
+        UsefulMethods.printLOG("EndGameActivity onCreate() points = " + points);
 
     }
 
@@ -60,7 +60,11 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.act_eng_game_play_again_btn)
-    protected void playAginBtnOnClick() {
-        finish();
+    protected void playAgainBtnOnClick() {
+        Intent intent = new Intent(EndGameActivity.this, GameActivity.class);
+        startActivity(intent);
+        UsefulMethods.printLOG("EndGameActivity playAgainBtnOnClick()");
+        this.finish();
+        UsefulMethods.printLOG("EndGameActivity playAgainBtnOnClick() finish()");
     }
 }
