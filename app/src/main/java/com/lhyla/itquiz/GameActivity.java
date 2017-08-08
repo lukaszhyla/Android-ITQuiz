@@ -1,11 +1,9 @@
 package com.lhyla.itquiz;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,9 +60,6 @@ public class GameActivity extends AppCompatActivity {
 
     private TimeCountAsyncTask timeCountAsyncTask;
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-
     private boolean noMoreQuestions;
 
     @Override
@@ -73,9 +68,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
         UsefulMethods.printLOG("GameActivity onCreate()");
-
-        sharedPreferences = getMySharedPref();
-        clearMySharedPref();
 
         dbQuerries = new DBQuerries(GameActivity.this);
         dbQuerries.startDbWritable();
@@ -97,11 +89,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         UsefulMethods.printLOG("GameActivity onResume()");
-        sumOfPoints = loadPointsFromSharedPref();
-
-        String sumOfPointsString = "Sum of points: " + String.valueOf(sumOfPoints);
-        sumOfPointsTV.setText(sumOfPointsString);
-
     }
 
     @Override
@@ -114,7 +101,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         UsefulMethods.printLOG("GameActivity onPause()");
-        safePointsToSharedPref(sumOfPoints);
         finish();
     }
 
@@ -181,7 +167,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void loadQuestionOrEndActivity() {
-
         updateCurrentQuestion();
         UsefulMethods.printLOG("GameActivity oneOfAnswersOnClick()" +
                 " " + "noMoreQuestions = " + noMoreQuestions);
@@ -201,32 +186,6 @@ public class GameActivity extends AppCompatActivity {
         sumOfPointsTV.setText(sumOfPointsString);
     }
 
-    private void safePointsToSharedPref(Integer points) {
-        UsefulMethods.printLOG("GameActivity safePointsToSharedPref()");
-        editor = sharedPreferences.edit();
-        editor.putInt(getString(R.string.PREF_GAME_ACT_SUM_OF_POINTS), points);
-        editor.apply();
-    }
-
-    private Integer loadPointsFromSharedPref() {
-        UsefulMethods.printLOG("GameActivity loadPointsFromSharedPref()");
-        return sharedPreferences.
-                getInt(getString(R.string.PREF_GAME_ACT_SUM_OF_POINTS), 0);
-    }
-
-    private SharedPreferences getMySharedPref() {
-        UsefulMethods.printLOG("GameActivity getMySharedPref()");
-        Context context = GameActivity.this;
-
-        return context.getSharedPreferences
-                (getString(R.string.PREF_KEY), Context.MODE_APPEND);
-    }
-
-    private void clearMySharedPref() {
-        UsefulMethods.printLOG("GameActivity clearMySharedPref() ");
-        editor = sharedPreferences.edit();
-        editor.clear().apply();
-    }
 
     public void updatePointsToGain(Integer pointsToGain) {
         this.pointsToGain = pointsToGain;
@@ -250,13 +209,6 @@ public class GameActivity extends AppCompatActivity {
         answerBTV.setText(currentQuestion.getAnswerB());
         answerCTV.setText(currentQuestion.getAnswerC());
         answerDTV.setText(currentQuestion.getAnswerD());
-    }
-
-    private void ifEmptyCreateQuestionList() {
-        if (dbQuerries.getQuestionList().isEmpty()) {
-            UsefulMethods.printLOG("GameActivity ifEmptyCreateQuestionList()");
-            createQuestion();
-        }
     }
 
     private boolean checkIsAnswerIsCorrect(String answer) {
@@ -309,6 +261,13 @@ public class GameActivity extends AppCompatActivity {
         intent.putExtra("Points", sumOfPoints);
         startActivity(intent);
         this.finish();
+    }
+
+    private void ifEmptyCreateQuestionList() {
+        if (dbQuerries.getQuestionList().isEmpty()) {
+            UsefulMethods.printLOG("GameActivity ifEmptyCreateQuestionList()");
+            createQuestion();
+        }
     }
 
     private void createQuestion() {

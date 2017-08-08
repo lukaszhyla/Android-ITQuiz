@@ -5,28 +5,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1.0"
-    tools:context="com.lhyla.itquiz.StartActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.25" />
+    tools:context="com.lhyla.itquiz.StartActivity"
+    android:layout_gravity="center">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.dp"
-        android:layout_weight="0.5"
-        android:id="@+id/act_start_game_starts"
-        android:textAlignment="center"
         android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:text="START"
+        android:layout_weight="0.3"
+        android:background="@color/colorAccent"
         android:clickable="true"
-        android:textSize="24sp"
-        android:background="@color/colorAccent"/>
+        android:gravity="center_vertical"
+        android:text="Select the category"
+        android:textAlignment="center"
+        android:textSize="24sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.25" />
+    <Button
+        android:id="@+id/act_start_game_starts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="General knowledge"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
 </LinearLayout>

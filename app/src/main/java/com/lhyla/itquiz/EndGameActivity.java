@@ -60,8 +60,8 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.act_eng_game_play_again_btn)
-    protected void playAgainBtnOnClick() {
-        Intent intent = new Intent(EndGameActivity.this, GameActivity.class);
+    public void playAgainBtnOnClick() {
+        Intent intent = new Intent(EndGameActivity.this, StartActivity.class);
         startActivity(intent);
         UsefulMethods.printLOG("EndGameActivity playAgainBtnOnClick()");
         this.finish();
