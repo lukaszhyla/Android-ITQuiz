@@ -1,86 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.lhyla.itquiz.EndGameActivity">
+    android:layout_height="wrap_content">
 
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Result"
-        android:textAlignment="center"
-        android:textSize="36sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.lhyla.itquiz.EndGameActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="Result"
+            android:textAlignment="center"
+            android:textSize="36sp" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:weightSum="1.0">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/colorPrimaryDark"
-                android:text="Points"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+                android:orientation="vertical"
+                android:weightSum="1.0">
 
-            <TextView
-                android:id="@+id/act_end_game_points_TV"
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Points"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/act_end_game_points_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorAccent"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/colorAccent"
-                android:text="0"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Questions"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/act_end_game_asked_questions_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/act_eng_game_play_again_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:text="Questions"
-                android:textAlignment="center"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/act_end_game_asked_questions_TV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:text="0"
-                android:textAlignment="center"
-                android:textSize="24sp" />
-        </LinearLayout>
-
+            android:text="Play Again"
+            android:textAlignment="center"
+            android:textSize="24sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/act_eng_game_play_again_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Play Again"
-        android:textAlignment="center"
-        android:textSize="24sp" />
+
+</ScrollView>
 
 
-</LinearLayout>
+

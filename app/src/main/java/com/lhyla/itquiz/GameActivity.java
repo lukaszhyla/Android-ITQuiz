@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lhyla.itquiz.async_tasks.TimeCountAsyncTask;
-import com.lhyla.itquiz.data.DBQuerries;
+import com.lhyla.itquiz.data.DBQueries;
 import com.lhyla.itquiz.data.Question;
 import com.lhyla.itquiz.useful_methods.UsefulMethods;
 
@@ -56,7 +56,7 @@ public class GameActivity extends AppCompatActivity {
     private Question currentQuestion;
     private Question lastQuestion;
 
-    private DBQuerries dbQuerries;
+    private DBQueries dbQueries;
 
     private TimeCountAsyncTask timeCountAsyncTask;
 
@@ -69,12 +69,12 @@ public class GameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         UsefulMethods.printLOG("GameActivity onCreate()");
 
-        dbQuerries = new DBQuerries(GameActivity.this);
-        dbQuerries.startDbWritable();
+        dbQueries = new DBQueries(GameActivity.this);
+        dbQueries.startDbWritable();
         ifEmptyCreateQuestionList();
 
         drawnQuestion = new ArrayList<>();
-        questions = dbQuerries.getQuestionList();
+        questions = dbQueries.getQuestionList();
 
         loadQuestionOrEndActivity();
     }
@@ -115,6 +115,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         UsefulMethods.printLOG("GameActivity onDestroy()");
+        dbQueries.closeDb();
         timeCountAsyncTask.cancel(true);
     }
 
@@ -264,20 +265,20 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void ifEmptyCreateQuestionList() {
-        if (dbQuerries.getQuestionList().isEmpty()) {
+        if (dbQueries.getQuestionList().isEmpty()) {
             UsefulMethods.printLOG("GameActivity ifEmptyCreateQuestionList()");
             createQuestion();
         }
     }
 
     private void createQuestion() {
-        dbQuerries.addToBase("Where Google has it main Headquarters",
+        dbQueries.addQuestionToBase("Where Google has it main Headquarters",
                 "New York", "Los Angel", "Mountain View", "Chicago", "C");
 
-        dbQuerries.addToBase("Who is the founder of Amazon?", "Steve Jobs",
+        dbQueries.addQuestionToBase("Who is the founder of Amazon?", "Steve Jobs",
                 "Linus Torvalds", "Bill Gates", " Jeff Bezos", "D");
 
-        dbQuerries.addToBase("What kind of primitive variable type you cannot create in Java?",
+        dbQueries.addQuestionToBase("What kind of primitive variable type you cannot create in Java?",
                 "var", "short", "byte", "char", "A");
     }
 

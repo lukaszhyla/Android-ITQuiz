@@ -20,7 +20,6 @@
             android:orientation="vertical">
 
 
-
             <TextView
                 android:id="@+id/act_game_time_counter_TV"
                 android:layout_width="match_parent"
@@ -28,25 +27,33 @@
                 android:background="@color/colorAccent"
                 android:text="Time left: 10 sec."
                 android:textAlignment="center"
+                android:textColor="@color/secondary_text"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/act_game_points_to_gain_TV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
                 android:text="Points to gain: "
                 android:textAlignment="center"
-                android:textSize="24sp"
-                android:background="@color/colorAccent"/>
+                android:textColor="@color/secondary_text"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/act_game_actual_sum_of_points_TV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
                 android:text="Sum of points: 0"
                 android:textAlignment="center"
-                android:textSize="24sp"
-                android:background="@color/colorAccent"/>
+                android:textColor="@color/secondary_text"
+                android:textSize="24sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
 
 
             <TextView
