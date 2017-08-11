@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 10;
     private static final String DATABASE_NAME = "Questions.db";
 
     private static final String SQL_CREATE_QUESTIONS_TABLE = "CREATE TABLE " +

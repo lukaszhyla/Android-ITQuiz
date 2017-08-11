@@ -3,8 +3,11 @@ package com.lhyla.itquiz;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.lhyla.itquiz.adapters.ScoreListAdapter;
 import com.lhyla.itquiz.data.DBQueries;
 import com.lhyla.itquiz.data.Score;
 import com.lhyla.itquiz.useful_methods.UsefulMethods;
@@ -24,8 +27,12 @@ public class EndGameActivity extends AppCompatActivity {
     @BindView(R.id.act_end_game_points_TV)
     TextView pointsTV;
 
+    @BindView(R.id.act_end_game_recycler_view)
+    RecyclerView recyclerView;
+
     private DBQueries dbQueries;
     private List<Score> bestScoreList;
+    private ScoreListAdapter scoreListAdapter;
 
 
     @Override
@@ -36,6 +43,7 @@ public class EndGameActivity extends AppCompatActivity {
 
         dbQueries = new DBQueries(EndGameActivity.this);
         dbQueries.startDbWritable();
+
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -49,6 +57,9 @@ public class EndGameActivity extends AppCompatActivity {
         for (Score score : bestScoreList) {
             UsefulMethods.printLOG("EndGameActivity onCreate()" + score.toString());
         }
+
+        setLayoutManagerToRecyclerView();
+        setAdapterToRecyclerView();
 
         pointsTV.setText(String.valueOf(points));
         askedQuestionsTV.setText(String.valueOf(askedQuestions));
@@ -96,13 +107,13 @@ public class EndGameActivity extends AppCompatActivity {
     private void addToScoreList(String points, String questions) {
         bestScoreList = getBestScoreSortedList();
 
-        if (isListSizeMoreOrEqualsThanTen(bestScoreList)) {
+        if (isListSizeMoreOrEqualsThanTwenty(bestScoreList)) {
             UsefulMethods.printLOG("EndGameActivity addToScoreList listIsMoreOrEqualsThanTen");
             Integer intPoints = Integer.parseInt(bestScoreList.get(bestScoreList.size() - 1).getPoints());
             if (Integer.parseInt(points) > intPoints) {
                 UsefulMethods.printLOG(
                         "EndGameActivity addToScoreList listIsMoreOrEqualsThanTen" +
-                                "user collect more points than his 10 record!");
+                                "user collect more points than his 20 record!");
                 Integer idToRemove = bestScoreList.get(bestScoreList.size() - 1).getID();
                 dbQueries.removeRecordById(idToRemove);
                 dbQueries.addScoreToBase(new Date().toString(), points, questions);
@@ -119,7 +130,17 @@ public class EndGameActivity extends AppCompatActivity {
         return dbQueries.getScoreSordetList();
     }
 
-    private boolean isListSizeMoreOrEqualsThanTen(List<Score> list) {
-        return bestScoreList.size() >= 10;
+    private boolean isListSizeMoreOrEqualsThanTwenty(List<Score> list) {
+        return list.size() >= 10;
+    }
+
+    private void setLayoutManagerToRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(EndGameActivity.this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    private void setAdapterToRecyclerView() {
+        scoreListAdapter = new ScoreListAdapter(bestScoreList, EndGameActivity.this);
+        recyclerView.setAdapter(scoreListAdapter);
     }
 }
